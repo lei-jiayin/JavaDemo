@@ -3,10 +3,11 @@ package sjjg.linkedlist;
 import lombok.Data;
 
 /**
+ * 单链表的实现
  * @author xw
  * @date 2020/8/8 12:58
  */
-public class LinkedListDemo {
+public class SingleLinkedListDemo {
     public static void main(String[] args) {
         System.out.println("单链表实现");
         LinkedNode linkedNode1 = new LinkedNode(1,"xw","weiwie");
