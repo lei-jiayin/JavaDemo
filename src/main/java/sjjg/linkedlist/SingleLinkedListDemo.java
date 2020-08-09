@@ -22,6 +22,17 @@ public class SingleLinkedListDemo {
         System.out.println("该链表是否为空："+ linkedList.isEmpty());
         linkedList.addNodeByNo(new LinkedNode(2,"xss","111"));
         linkedList.list();
+        linkedList.update(new LinkedNode(2,"sssssssss","222222"));
+        linkedList.list();
+        linkedList.update(new LinkedNode(22,"sssssssss","222222"));
+        System.out.println("删除节点");
+        linkedList.delete(new LinkedNode(1,"sssssssss","222222"));
+        linkedList.delete(new LinkedNode(2,"sssssssss","222222"));
+        linkedList.delete(new LinkedNode(4,"sssssssss","222222"));
+        linkedList.delete(new LinkedNode(1111,"sssssssss","222222"));
+        linkedList.delete(new LinkedNode(7,"sssssssss","222222"));
+        linkedList.delete(new LinkedNode(111,"sssssssss","222222"));
+        linkedList.list();
     }
 }
 
@@ -104,6 +115,66 @@ class LinkedList{
         }
     }
 
+    /**
+     * 更新 节点数据
+     * @param linkedNode
+     * @return
+     */
+    public boolean update(LinkedNode linkedNode){
+        // 判空
+        if(head.next == null){
+            System.out.println("链表为空~");
+            return false;
+        }
+        boolean flag = false;
+        LinkedNode tmpe = head;
+        while (true){
+            if (tmpe == null){
+                break;
+            }
+            if (tmpe.no == linkedNode.no){
+                flag = true;
+                break;
+            }
+            tmpe = tmpe.next;
+        }
+        if (flag){
+            tmpe.name = linkedNode.name;
+            tmpe.nickName = linkedNode.nickName;
+            return true;
+        }else{
+            System.out.println("没有找到该节点~");
+            return false;
+        }
+    }
+
+    /**
+     * 删除链表中的节点
+     * @param delNode
+     */
+    public void delete(LinkedNode delNode){
+        if (isEmpty()){
+            System.out.println("链表为空~~~");
+            return;
+        }
+        LinkedNode tmpe = head;
+        boolean flag = false;
+        while (true){
+            if (tmpe.next == null){
+                break;
+            }
+            if (tmpe.next.no == delNode.no){
+                flag = true;
+                break;
+            }
+            tmpe = tmpe.next;
+        }
+        if (flag){
+            tmpe.next = tmpe.next.next;
+        }else {
+            System.out.println("节点不存在~~");
+        }
+    }
 }
 
 /**
