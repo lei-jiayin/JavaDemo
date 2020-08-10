@@ -14,8 +14,8 @@ public class SingleLinkedListDemo {
     public static void main(String[] args) {
         System.out.println("单链表实现");
         LinkedNode linkedNode1 = new LinkedNode(1,"xw","weiwie");
-        LinkedNode linkedNode2 = new LinkedNode(4,"xwx","wei");
-        LinkedNode linkedNode3 = new LinkedNode(5,"xwxw","xxx");
+        LinkedNode linkedNode2 = new LinkedNode(1,"xwx","wei");
+        LinkedNode linkedNode3 = new LinkedNode(3,"xwxw","xxx");
         SingleLinkedList linkedList = new SingleLinkedList();
         System.out.println("该链表是否为空："+ linkedList.isEmpty());
         linkedList.addNode(linkedNode1);
@@ -42,9 +42,9 @@ public class SingleLinkedListDemo {
         System.out.println("逆序打印");
         reversePrint(linkedList.getHead());*/
 
-        LinkedNode linkedNode11 = new LinkedNode(2,"xw","weiwie");
-        LinkedNode linkedNode22 = new LinkedNode(6,"xwx","wei");
-        LinkedNode linkedNode33 = new LinkedNode(8,"xwxw","xxx");
+        LinkedNode linkedNode11 = new LinkedNode(4,"xw","weiwie");
+        LinkedNode linkedNode22 = new LinkedNode(5,"xwx","wei");
+        LinkedNode linkedNode33 = new LinkedNode(5,"xwxw","xxx");
         SingleLinkedList linkedList1 = new SingleLinkedList();
         System.out.println("该链表是否为空："+ linkedList.isEmpty());
         linkedList1.addNode(linkedNode11);
@@ -58,68 +58,53 @@ public class SingleLinkedListDemo {
 
     }
 
-    public static LinkedNode mergeList(LinkedNode tHead, LinkedNode THead){
-        if (tHead == null && THead == null){
+    /**
+     * 合并两个 有序链表 合并之后依旧是有序链表
+     * @param a
+     * @param b
+     * @return
+     */
+    public static LinkedNode mergeList(LinkedNode a, LinkedNode b){
+        if (a.next == null && b.next == null){
             return null;
-        }else if (tHead == null){
-            return THead;
-        }else if (THead == null){
-            return THead;
+        }else if (a.next == null){
+            return b;
+        }else if (b.next == null){
+            return a;
         }
-        LinkedNode head, tmpa, tmpb;
-        LinkedNode a = tHead.next;
-        LinkedNode b= THead.next;
+        LinkedNode ca = a.next;
+        LinkedNode cb = b.next;
+        LinkedNode tmpe = null;
+        LinkedNode c = new LinkedNode();
+        LinkedNode ctmpe = c;
 
-
-        if (a.no < b.no) {
-
-            head = tHead;
-
-            tmpa = a.next;
-
-            tmpb = b;
-
-        } else {
-
-            head = THead;
-
-            tmpb = b.next;
-
-            tmpa = a;
-
-        }
-
-
-
-        LinkedNode tmp = head;
-
-        while (tmpa != null && tmpb != null) {
-
-            if (tmpa.no < tmpb.no) {
-
-                tmp.next = tmpa;
-
-                tmp = tmpa;
-
-                tmpa = tmpa.next;
-
-            } else {
-
-                tmp.next = tmpb;
-
-                tmp = tmpb;
-
-                tmpb = tmpb.next;
-
+        // 终止条件
+        while (ca != null && cb != null){
+            if (ca.no > cb.no){
+              /*  tmpe = cb;
+                tmpe.next = null;*/
+                tmpe = cb.next;
+                ctmpe.next = cb;
+                cb = tmpe;
+            }else
+            if (ca.no < cb.no){
+                tmpe = ca.next;
+                ctmpe.next = ca;
+                ca = tmpe;
+            }else {
+                tmpe = ca.next;
+                ctmpe.next = ca;
+                ca = tmpe;
+                ctmpe = ctmpe.next;
+                tmpe = cb.next;
+                ctmpe.next = cb;
+                cb = tmpe;
             }
-
+            ctmpe = ctmpe.next;
         }
-
-
-
-        tmp.next = (tmpa == null) ? tmpb : tmpa;
-
-        return head;
+        if (ca != null) ctmpe.next = ca;
+        if (cb != null) ctmpe.next = cb;
+        return c;
     }
 
     /**
