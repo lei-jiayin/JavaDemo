@@ -14,8 +14,8 @@ public class SingleLinkedListDemo {
     public static void main(String[] args) {
         System.out.println("单链表实现");
         LinkedNode linkedNode1 = new LinkedNode(1,"xw","weiwie");
-        LinkedNode linkedNode2 = new LinkedNode(1,"xwx","wei");
-        LinkedNode linkedNode3 = new LinkedNode(3,"xwxw","xxx");
+        LinkedNode linkedNode2 = new LinkedNode(5,"xwx","wei");
+        LinkedNode linkedNode3 = new LinkedNode(7,"xwxw","xxx");
         SingleLinkedList linkedList = new SingleLinkedList();
         System.out.println("该链表是否为空："+ linkedList.isEmpty());
         linkedList.addNode(linkedNode1);
@@ -42,9 +42,9 @@ public class SingleLinkedListDemo {
         System.out.println("逆序打印");
         reversePrint(linkedList.getHead());*/
 
-        LinkedNode linkedNode11 = new LinkedNode(4,"xw","weiwie");
-        LinkedNode linkedNode22 = new LinkedNode(5,"xwx","wei");
-        LinkedNode linkedNode33 = new LinkedNode(5,"xwxw","xxx");
+        LinkedNode linkedNode11 = new LinkedNode(2,"xw","weiwie");
+        LinkedNode linkedNode22 = new LinkedNode(6,"xwx","wei");
+        LinkedNode linkedNode33 = new LinkedNode(8,"xwxw","xxx");
         SingleLinkedList linkedList1 = new SingleLinkedList();
         System.out.println("该链表是否为空："+ linkedList.isEmpty());
         linkedList1.addNode(linkedNode11);
