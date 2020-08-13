@@ -1,4 +1,4 @@
-package sjjg;
+package sjjg.stack;
 
 /**
  * 顺序栈 数组实现
@@ -23,6 +23,7 @@ public class ArrayStack<T> {
 
     public boolean pushStack(T a){
         if (isFullStack()){
+            System.out.println("栈满");
             return false;
         }
         top ++;
@@ -32,6 +33,7 @@ public class ArrayStack<T> {
 
     public T popStack(){
         if (isEmptyStack()){
+            System.out.println("栈空");
             return null;
         }
         T t = quen[top];
@@ -52,6 +54,18 @@ public class ArrayStack<T> {
         }
         return false;
     }
+
+    public void list(){
+        if (isEmptyStack()){
+            System.out.println("栈空，没有数据~");
+            return;
+        }
+        // 从栈顶显示数据
+        for (int i=top; i>=0; i--){
+            System.out.printf("quen[%d]=%d\n",i,quen[i]);
+        }
+    }
+
 
     public static void main(String[] args) {
         ArrayStack<Integer> arrayStack = new ArrayStack<Integer>(1);

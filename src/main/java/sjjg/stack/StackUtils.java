@@ -1,4 +1,5 @@
-package sjjg;
+package sjjg.stack;
+
 
 /**
  * 栈工具类
