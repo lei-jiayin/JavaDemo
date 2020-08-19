@@ -17,12 +17,12 @@ public class Queue8 {
 
     public static void main(String[] args) {
         Queue8 queue8 = new Queue8();
-        check(0);
+        queue8.check(0);
         System.out.println(count);
     }
 
     // 放置n个皇后
-    public static void check(int n){
+    public void check(int n){
         // 递归终止条件 当n大于8时 n的下次放置就是第九位皇后 即终止
         if (n == max){
             print();
