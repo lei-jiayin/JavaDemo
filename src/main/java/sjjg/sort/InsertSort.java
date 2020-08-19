@@ -29,7 +29,7 @@ public class InsertSort {
         int insertVal;
         // 插入位置的索引
         int insertIndex;
-
+        // O(n^2)
         // 一共插入 length - 1 次 有序表当前只有一个数arr[0]索引为0  i 从无序表开始遍历索引为1
         for (int i = 1; i < arr.length; i++){
             insertVal = arr[i];
