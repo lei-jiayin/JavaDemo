@@ -2,7 +2,7 @@ package sjjg.sort;
 
 
 /**
- * 基数排序（桶排序扩展）
+ * 基数排序（桶排序扩展、桶子法、bin sort）
  * 赫尔曼·何乐礼
  * @author adx
  * @date 2020/8/21 11:17
