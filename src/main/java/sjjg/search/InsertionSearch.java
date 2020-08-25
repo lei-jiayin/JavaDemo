@@ -14,7 +14,7 @@ public class InsertionSearch {
     }
 
     /**
-     * 插值查找
+     * 插值查找 排序列表需要为有序的
      * @param arr 要查找的数组
      * @param high 最高位索引
      * @param key 目标值
