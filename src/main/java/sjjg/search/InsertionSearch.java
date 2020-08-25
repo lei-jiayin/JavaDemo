@@ -22,8 +22,8 @@ public class InsertionSearch {
      * @return 目标值的下标
      */
     public static int insertionSearch(int[] arr, int high, int key,int low){
-        // 判断传入的参数是否越界
-        if (low > high || key < arr[low] || key > arr[high]) {
+        // 判断传入的参数是否越界 逆序的话条件要反过来
+        if (low > high || key < arr[0] || key > arr[arr.length - 1]) {
             return -1;
         }
         // 取得最接近查找值的中间值
