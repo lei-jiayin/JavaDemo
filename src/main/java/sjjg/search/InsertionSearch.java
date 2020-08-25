@@ -9,7 +9,7 @@ package sjjg.search;
 public class InsertionSearch {
     public static void main(String[] args) {
         int[] arr = {2,8,9,15,46,78};
-        int resIndex = insertionSearch(arr, arr.length - 1, 88, 0);
+        int resIndex = insertionSearch(arr, arr.length - 1, 15, 0);
         System.out.println(resIndex);
     }
 
@@ -22,11 +22,12 @@ public class InsertionSearch {
      * @return 目标值的下标
      */
     public static int insertionSearch(int[] arr, int high, int key,int low){
+        System.out.println("查找次数~~");
         // 判断传入的参数是否越界 逆序的话条件要反过来
         if (low > high || key < arr[0] || key > arr[arr.length - 1]) {
             return -1;
         }
-        // 取得最接近查找值的中间值
+        // 取得最接近查找值的中间值 自适应取中间索引
         int mid=low+((key-arr[low])/(arr[high]-arr[low]))*(high-low);
         if(key==arr[mid]) {
             // 找到值相等返回索引
