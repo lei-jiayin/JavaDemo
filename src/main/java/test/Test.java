@@ -19,4 +19,21 @@ public class Test {
             System.out.println(ss[i]);
         }*/
     }
+
+    /**
+     * 计算左移运算 <<
+     * 2 = 10 ，8 = 2^3
+     * 1向左移3位
+     * 10000 = 2^4
+     * @param a 基数
+     * @param b 位数
+     * @return
+     */
+    public static int left(int a, int b){
+        return a << b;
+    }
+
+    public static int right(int a, int b){
+        return a >> b;
+    }
 }
