@@ -14,8 +14,16 @@ public class HashTableDemo {
         hashTable.add(new Emp(4, "hf"));
         hashTable.add(new Emp(8, "ls"));
         hashTable.list();
-        Emp emp = hashTable.searchEmp(5);
+        Emp emp = hashTable.searchEmp(8);
         System.out.println(emp);
+
+        System.out.println();
+        hashTable.list();
+        System.out.println("删除雇员信息：");
+        hashTable.delete(9);
+        System.out.println();
+
+        hashTable.list();
     }
 }
 
@@ -34,6 +42,17 @@ class HashTable{
         this.empLinkedListArray = new EmpLinkedList[size];
         for (int i = 0; i < size; i++){
             empLinkedListArray[i] = new EmpLinkedList();
+        }
+    }
+
+    //删除
+    public void delete(int id){
+        int no = hashFun(id);
+        boolean flag = empLinkedListArray[no].delete(id);
+        if (flag){
+            System.out.println("雇员信息删除成功！");
+        }else {
+            System.out.println("删除失败！");
         }
     }
 
@@ -100,7 +119,7 @@ class EmpLinkedList{
     // 遍历链表的成员信息
     public void list(int no){
         if (head == null){
-            System.out.println("链表为空！");
+            System.out.println("当前第"+no+"链表的信息为空！");
             return;
         }
         System.out.println("当前第"+no+"链表的信息为：");
@@ -118,6 +137,7 @@ class EmpLinkedList{
     public Emp findEmpById(int id){
 
         if (head == null){
+            // 当前id%size索引所指向的链表为空
             System.out.println("链表为空！");
             return null;
         }
@@ -135,6 +155,35 @@ class EmpLinkedList{
         }
     }
 
+    // 删除节点
+    public boolean delete(int id) {
+        if (head == null){
+            // 当前id%size索引所指向的链表为空
+            System.out.println("链表为空!");
+            return false;
+        }
+        Emp emp = head;
+        if (emp.id == id){
+            head = emp.next;
+            return true;
+        }
+        boolean flag = false;
+        while (true){
+            if (emp.next == null){
+                flag = false;
+                break;
+            }
+            if (emp.next.id == id){
+                flag = true;
+                break;
+            }
+            emp = emp.next;
+        }
+        if (flag){
+            emp.next = emp.next.next;
+        }
+        return flag;
+    }
 }
 
 /**
