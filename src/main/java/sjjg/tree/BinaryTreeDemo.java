@@ -32,6 +32,20 @@ public class BinaryTreeDemo {
         System.out.println("后序");
         binaryTree.postOrder();//25431
 
+       /* System.out.println("前序查找");
+        HeroNode h1 = binaryTree.preSearch(5);
+        System.out.println(h1);
+        System.out.println("中序查找");
+        HeroNode h2 = binaryTree.infixSearch(5);
+        System.out.println(h2);
+        System.out.println("后序查找");
+        HeroNode h3 = binaryTree.postSearch(5);
+        System.out.println(h3);*/
+
+        System.out.println("二叉树删除节点");
+        binaryTree.delNode(1);
+        binaryTree.postOrder();
+
     }
 }
 
@@ -40,6 +54,43 @@ class BinaryTree{
     private HeroNode root;
     public void setRoot(HeroNode root){
         this.root = root;
+    }
+
+    //删除节点
+    public void delNode(int no){
+        if (root != null){
+            if (root.getNo() == no){
+                root = null;
+            }else {
+                root.delNode(no);
+            }
+        }else {
+            System.out.println("空树不能删除！");
+        }
+    }
+
+    //前序查找
+    public HeroNode preSearch(int no){
+        if (root != null){
+            return root.preSearch(no);
+        }
+        return null;
+    }
+
+    //前序查找
+    public HeroNode infixSearch(int no){
+        if (this.root != null){
+            return this.root.infixSearch(no);
+        }
+        return null;
+    }
+
+    //前序查找
+    public HeroNode postSearch(int no){
+        if (this.root != null){
+            return this.root.postSearch(no);
+        }
+        return null;
     }
 
     //前序遍历调用
@@ -138,6 +189,28 @@ class HeroNode{
         }
     }
 
+    //前序查找
+    public HeroNode preSearch(int no){
+        System.out.println("进入前序查找~~");
+        HeroNode resNode = null;
+        if(this.no == no){
+            return this;
+        }
+        if (this.left != null){
+            resNode = this.left.preSearch(no);
+        }
+        if (resNode != null){
+            return resNode;
+        }
+        if (this.right != null){
+            resNode = this.right.preSearch(no);
+        }
+        if (resNode != null){
+            return resNode;
+        }
+        return resNode;
+    }
+
     // 中序遍历
     public void infixOrder(){
         //递归向左子树中序遍历
@@ -152,6 +225,28 @@ class HeroNode{
         }
     }
 
+    //中序查找
+    public HeroNode infixSearch(int no){
+        HeroNode resNode = null;
+        if (this.left != null){
+            resNode = this.left.infixSearch(no);
+        }
+        if (resNode != null){
+            return resNode;
+        }
+        System.out.println("进入中序序查找~~");
+        if(this.no == no){
+            return this;
+        }
+        if (this.right != null){
+            resNode = this.right.infixSearch(no);
+        }
+        if (resNode != null){
+            return resNode;
+        }
+        return resNode;
+    }
+
     // 后序遍历
     public void postOrder(){
         //递归向左子树后序遍历
@@ -164,6 +259,47 @@ class HeroNode{
         }
         // 打印父节点
         System.out.println(this);
+    }
+    //后序查找
+    public HeroNode postSearch(int no){
+        HeroNode resNode = null;
+        if (this.left != null){
+            resNode = this.left.postSearch(no);
+        }
+        if (resNode != null){
+            return resNode;
+        }
+        if (this.right != null){
+            resNode = this.right.postSearch(no);
+        }
+        if (resNode != null){
+            return resNode;
+        }
+        System.out.println("进入后序查找~~");
+        if(this.no == no){
+            return this;
+        }
+        return resNode;
+    }
+
+    // 删除节点
+    // 规定 若是叶子节点 直接删除 若是非叶子节点则删除子树
+    public void delNode(int no){
+        if (this.left != null) {
+            if (this.left.no == no){
+                this.left = null;
+                return;
+            }else {
+                this.left.delNode(no);
+            }
+        }
+        if (this.right != null){
+            if (this.right.no == no){
+                this.right = null;
+            }else {
+                this.right.delNode(no);
+            }
+        }
     }
 
 }
