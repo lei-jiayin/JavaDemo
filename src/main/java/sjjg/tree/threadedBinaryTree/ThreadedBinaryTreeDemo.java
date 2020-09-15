@@ -1,11 +1,21 @@
 package sjjg.tree.threadedBinaryTree;
 
 /**
+ * 线索化功能二叉树
  * @author adv
  * @date 2020/9/8 16:34
  */
 public class ThreadedBinaryTreeDemo {
     public static void main(String[] args) {
+        // 测试线索化二叉树
+        HeroNode root = new HeroNode(1,"tom");
+        HeroNode node2 = new HeroNode(3,"jack");
+        HeroNode node3 = new HeroNode(6,"smith");
+        HeroNode node4 = new HeroNode(8,"mary");
+        HeroNode node5 = new HeroNode(10,"king");
+        HeroNode node6 = new HeroNode(14,"dim");
+
+        //二叉树后面我们要递归创建
 
     }
 }
@@ -31,11 +41,9 @@ class ThreadedBinaryTree{
         if (node == null){
             return;
         }
-
         // 先线索化左子树
         threadedNodes(node.getLeft());
         // 线索化当前节点
-
         //处理当前节点的前驱节点
         // 叶子结点指向空
         if (node.getLeft() == null){
@@ -44,7 +52,6 @@ class ThreadedBinaryTree{
             //修改当前节点的左指针类型 指向前驱
             node.setLeftType(1);
         }
-
         // 处理后继节点
         if (pre!=null && pre.getRight()==null){
             //让前驱节点的右指针指向当前节点
@@ -52,13 +59,10 @@ class ThreadedBinaryTree{
             //修改前驱节点的右指针类型
             pre.setRightType(1);
         }
-        //没处理一个节点后，让当前节点是下一个 节点的前驱节点
+        //每处理一个节点后，让当前节点成为下一个 节点的前驱节点
         pre = node;
-
         // 再线索化右子树
         threadedNodes(node.getRight());
-
-
     }
 
     //删除节点
