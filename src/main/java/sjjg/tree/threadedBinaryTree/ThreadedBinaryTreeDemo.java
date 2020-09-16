@@ -16,7 +16,50 @@ public class ThreadedBinaryTreeDemo {
         HeroNode node6 = new HeroNode(14,"dim");
 
         //二叉树后面我们要递归创建
+        root.setLeft(node2);
+        root.setRight(node3);
+        node2.setLeft(node4);
+        node2.setRight(node5);
+        node3.setLeft(node6);
 
+
+
+
+        ThreadedBinaryTree threadedBinaryTree = new ThreadedBinaryTree();
+        threadedBinaryTree.setRoot(root);
+
+        //前序遍历
+//        threadedBinaryTree.preOrder();
+
+        //后序遍历
+        System.out.println("后序遍历");
+        threadedBinaryTree.postOrder();
+
+        //中序线索化
+//        threadedBinaryTree.indifixThreadedNodes();
+        //前序线索化
+//        threadedBinaryTree.preThreadedNodes();
+        //后序线索化
+        threadedBinaryTree.postThreadedNodes();
+
+        //测试 以node5为例
+        System.out.println("测试线索化是否成功：");
+        HeroNode node5Left = node3.getLeft();
+        HeroNode node5Right = node3.getRight();
+        System.out.println(node5Left);
+        System.out.println(node5Right);
+
+        //遍历中序线索化二叉树
+       /* System.out.println("使用线索化的方式遍历线索化二叉树");
+        threadedBinaryTree.threadedList();*/
+
+        //遍历前序线索化二叉树
+        /*System.out.println("使用前序线索化的方式遍历线索化二叉树");
+        threadedBinaryTree.preThreadedList();*/
+
+        //遍历后序线索化二叉树
+        System.out.println("使用后序线索化的方式遍历线索化二叉树");
+        threadedBinaryTree.postThreadedList();
     }
 }
 
@@ -32,17 +75,168 @@ class ThreadedBinaryTree{
         this.root = root;
     }
 
-    /**
-     * 编写对二叉树进行中序线索化的方法
-     * @param node 当前要线索化的节点
-     */
-    public void threadedNodes(HeroNode node){
+    public void indifixThreadedNodes(){
+        this.indifixThreadedNodes(root);
+    }
+
+    public void preThreadedNodes(){
+        this.preThreadedNodes(root);
+    }
+
+    public void postThreadedNodes(){
+        this.postThreadedNodes(root);
+    }
+
+    //后序线索化遍历
+    public void postThreadedList(){
+        HeroNode node = root;
+        HeroNode tmpe = null;
+        while (node!=null){
+            if (node == tmpe){
+                System.out.println(node);
+                break;
+            }
+            while (node.getLeftType() == 0){
+                tmpe = node;
+                node = node.getLeft();
+            }
+            System.out.println(node);
+            /*while (node.getRightType() == 1){
+                node = node.getRight();
+                System.out.println(node);
+            }*/
+
+            node = node.getRight();
+//            System.out.println(node);
+        }
+        node = root;
+        while (node != null){
+
+        }
+        System.out.println(root);
+    }
+
+    //编写后序线索化及 后序线索化遍历
+    public void postThreadedNodes(HeroNode node){
         //节点不能为空 不能线索化
         if (node == null){
             return;
         }
         // 先线索化左子树
-        threadedNodes(node.getLeft());
+        postThreadedNodes(node.getLeft());
+        // 再线索化右子树
+        postThreadedNodes(node.getRight());
+
+        // 线索化当前节点
+        //处理当前节点的前驱节点
+        // 叶子结点指向空
+        if (node.getLeft() == null){
+            //让当前节点的左指针指向前驱节点
+            node.setLeft(pre);
+            //修改当前节点的左指针类型 指向前驱
+            node.setLeftType(1);
+        }
+        // 处理后继节点
+        if (pre!=null && pre.getRight()==null){
+            //让前驱节点的右指针指向当前节点
+            pre.setRight(node);
+            //修改前驱节点的右指针类型
+            pre.setRightType(1);
+        }
+        //每处理一个节点后，让当前节点成为下一个 节点的前驱节点
+        pre = node;
+//        System.out.println(node);
+    }
+
+    //遍历前序线索化二叉树
+    public void preThreadedList(){
+        HeroNode node = root;
+        while (node != null){
+            //打印当前这个节点
+            System.out.println(node);
+            //循环遍历leftType==0的节点并打印
+            while (node.getLeftType() == 0){
+                node = node.getLeft();
+                System.out.println(node);
+            }
+            //当前节点的右指针指向后继节点
+            while (node.getRightType() == 1){
+                node = node.getRight();
+                System.out.println(node);
+            }
+            //在从节点的右节点开始（或者是后继节点）
+            node = node.getRight();
+        }
+    }
+
+    //前序线索化二叉树
+    public void preThreadedNodes(HeroNode node){
+        //当节点为空时返回
+        if (node == null){
+            return;
+        }
+        //线索化当前节点
+        if (node.getLeft() == null){
+            node.setLeft(pre);
+            node.setLeftType(1);
+        }
+        if (pre!=null && pre.getRight()==null){
+            pre.setRight(node);
+            pre.setRightType(1);
+        }
+        pre=node;
+        if (node.getLeftType() != 1){
+            preThreadedNodes(node.getLeft());
+        }else {
+            return;
+        }
+        if (node.getRightType() != 1){
+            preThreadedNodes(node.getRight());
+        }else {
+            return;
+        }
+    }
+
+
+    //中序线索化后的遍历顺序是线索化之前中序遍历的顺序
+    /**
+     * 遍历中序线索化二叉树
+     */
+    public void indifixThreadedList(){
+        // 定义一个变量 存储当前遍历的节点，从root开始
+        HeroNode node = root;
+        while (node != null){
+            //循环找到lefttype == 1的节点，因为是中序线索化，第一个节点是8
+            //后面随着遍历而变化位置，因为当leftType==1，说明该节点已被中序线索化的有效节点
+            while (node.getLeftType() == 0){
+                node = node.getLeft();
+            }
+            //打印当前这个节点
+            System.out.println(node);
+            //当前节点的右指针指向的是后继节点，
+            while (node.getRightType() == 1){
+                //获取到当前节点的后继节点
+                node = node.getRight();
+                System.out.println(node);
+            }
+            //替换这个遍历的节点
+            node = node.getRight();
+
+        }
+    }
+
+
+    /**
+     * 编写对二叉树进行中序线索化的方法
+     * @param node 当前要线索化的节点
+     */
+    public void indifixThreadedNodes(HeroNode node){
+        //节点不能为空 不能线索化
+        if (node == null){
+            return;
+        }
+        // 先线索化左子树
+        indifixThreadedNodes(node.getLeft());
         // 线索化当前节点
         //处理当前节点的前驱节点
         // 叶子结点指向空
@@ -62,7 +256,7 @@ class ThreadedBinaryTree{
         //每处理一个节点后，让当前节点成为下一个 节点的前驱节点
         pre = node;
         // 再线索化右子树
-        threadedNodes(node.getRight());
+        indifixThreadedNodes(node.getRight());
     }
 
     //删除节点
@@ -202,6 +396,8 @@ class HeroNode{
         return "HeroNode{" +
                 "no=" + no +
                 ", name='" + name + '\'' +
+                ", leftType=" + leftType +
+                ", rightType=" + rightType +
                 '}';
     }
 
