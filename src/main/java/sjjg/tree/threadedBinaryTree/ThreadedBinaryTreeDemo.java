@@ -15,12 +15,17 @@ public class ThreadedBinaryTreeDemo {
         HeroNode node5 = new HeroNode(10,"king");
         HeroNode node6 = new HeroNode(14,"dim");
 
-        //二叉树后面我们要递归创建
+        //二叉树后面我们要递归创建 加入父节点 后序遍历用
         root.setLeft(node2);
         root.setRight(node3);
+        node2.setParent(root);
+        node3.setParent(root);
         node2.setLeft(node4);
         node2.setRight(node5);
+        node4.setParent(node2);
+        node5.setParent(node2);
         node3.setLeft(node6);
+        node6.setParent(node3);
 
 
 
@@ -90,30 +95,39 @@ class ThreadedBinaryTree{
     //后序线索化遍历
     public void postThreadedList(){
         HeroNode node = root;
-        HeroNode tmpe = null;
+        //找到最左子节点
+        while (node!=null && node.getLeftType() == 0){
+            node  = node.getLeft();
+        }
+        pre = null;
         while (node!=null){
-            if (node == tmpe){
+            // 右节点是线索
+            if (node.getRightType() == 1){
                 System.out.println(node);
-                break;
-            }
-            while (node.getLeftType() == 0){
-                tmpe = node;
-                node = node.getLeft();
-            }
-            System.out.println(node);
-            /*while (node.getRightType() == 1){
+                pre = node;
+                // 找到线索
                 node = node.getRight();
-                System.out.println(node);
-            }*/
-
-            node = node.getRight();
-//            System.out.println(node);
+            }else {
+                //如果上个处理的节点是当前节点的右节点
+                if (node.getRight() == pre){
+                    System.out.println(node);
+                    //父节点是root 终止
+                    if (node == root){
+                        return;
+                    }
+                    //pre指针指向node
+                    pre = node;
+                    //找到父节点
+                    node = node.getParent();
+                }else {
+                    //如果从右节点进入则找到右子树的最左节点
+                    node = node.getRight();
+                    while (node != null && node.getLeftType() == 0){
+                        node = node.getLeft();
+                    }
+                }
+            }
         }
-        node = root;
-        while (node != null){
-
-        }
-        System.out.println(root);
     }
 
     //编写后序线索化及 后序线索化遍历
@@ -333,6 +347,9 @@ class HeroNode{
     private HeroNode left;
     private HeroNode right;
 
+    //为后序遍历指向父节点的指针
+    private HeroNode parent;
+
     //1.leftType==0 表示指向的是左子树，==1 表示指向前驱节点
     //2.rightType==0 表示指向的是右子树，==1 表示指向后继节点
     private int leftType;
@@ -528,4 +545,11 @@ class HeroNode{
         }
     }
 
+    public HeroNode getParent() {
+        return parent;
+    }
+
+    public void setParent(HeroNode parent) {
+        this.parent = parent;
+    }
 }
