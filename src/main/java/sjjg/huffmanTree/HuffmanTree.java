@@ -5,7 +5,10 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * 赫夫曼树的实现
+ * 赫夫曼树（特殊的二叉树，WPL最小的二叉树）的实现
+ * 节点的权=赋给节点某个具有含义的值
+ * 节点的带权路径长度=根节点到该节点之间的路径长度与该节点权的乘积
+ * WPL 树的带权路径长度=所有叶子节点的带权路径长度之和
  * @author adv
  * @date 2020/9/18 13:49
  */
@@ -13,8 +16,10 @@ public class HuffmanTree {
     public static void main(String[] args) {
         int[] arr = {13,7,8,3,29,6,1};
         Node root = createHuffmanTree(arr);
-        System.out.println("前序遍历：");
-        preOrder(root);
+        // System.out.println("前序遍历：");
+        // preOrder(root);
+        System.out.println("赫夫曼树的叶子节点：");
+        leafOrder(root);
     }
 
     /**
@@ -66,6 +71,16 @@ public class HuffmanTree {
         }
     }
 
+    private static void leafOrder(Node node){
+        if (node==null){
+            return;
+        }
+        if (node.left == null && node.right == null){
+            System.out.println(node);
+        }
+        leafOrder(node.left);
+        leafOrder(node.right);
+    }
 }
 
 //节点 支持排序
@@ -100,7 +115,7 @@ class Node implements Comparable<Node>{
 
     @Override
     public int compareTo(Node o) {
-        // return o.value - this.value;  //表示从大到小排序
+        // return o.value - this.value;  //表示从大到小排序 若这里是逆序 上面代码需要改变 最先取得两个值得倒序取，取最小两个
         return this.value - o.value;        //表示从小到大排序
     }
 }
