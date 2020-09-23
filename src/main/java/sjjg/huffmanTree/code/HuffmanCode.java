@@ -1,5 +1,6 @@
 package sjjg.huffmanTree.code;
 
+import java.io.*;
 import java.util.*;
 
 /**
@@ -9,10 +10,22 @@ import java.util.*;
  */
 public class HuffmanCode {
     public static void main(String[] args) {
-        String str = "宗介喜欢波妞！";
-        // String str = "i like like like java do you like a java";
-        byte[] huffmanCodeBytes = createHuffmanCodeBytes(str);
-        System.out.println(Arrays.toString(huffmanCodeBytes) + "长度：" + huffmanCodeBytes.length);
+        //测试压缩文件
+       /* String srcFile = "e://2.png";
+        String dstFile = "e://2.zip";
+        zipFile(srcFile,dstFile);
+        System.out.println("压缩文件成功");*/
+
+        //测试解压文件
+        String zipFile = "e://2.zip";
+        String dstFile = "e://22.png";
+        unZipFile(zipFile,dstFile);
+        System.out.println("解压成功！");
+
+        // String str = "宗介喜欢波妞！";
+       /* String str = "i like like like java do you like a java jdk";
+        byte[] huffmanCodeBytes = createHuffmanCodeBytes(str.getBytes());
+        System.out.println(Arrays.toString(huffmanCodeBytes) + "长度：" + huffmanCodeBytes.length);*/
         /*byte[] contentBytes = str.getBytes();
         System.out.println(contentBytes.length);//40
 
@@ -30,9 +43,100 @@ public class HuffmanCode {
         byte[] huffmanCodeBytes = zip(contentBytes,codes);
         System.out.println(Arrays.toString(huffmanCodeBytes));*/
 
-        byte[] source = decode(huffmanCodes, huffmanCodeBytes);
-        System.out.println(new String(source));
+        /*byte[] source = decode(huffmanCodes, huffmanCodeBytes);
+        System.out.println(new String(source));*/
     }
+
+
+    public static void zipFile(String srcFile, String dstFile){
+        //创建文件输入流
+        FileInputStream is = null;
+        FileOutputStream os = null;
+        ObjectOutputStream oos = null;
+        try {
+            //创建srcFile文件输入流
+            is = new FileInputStream(srcFile);
+            //创建一个和源文件大小一样的byte[]
+            byte[] b = new byte[is.available()];
+            //读取文件
+            int read = is.read(b);
+            //直接对源文件压缩
+            byte[] huffmanCodeBytes = createHuffmanCodeBytes(b);
+            //创建文件输出流
+            os = new FileOutputStream(dstFile);
+            //创建一个和文件输出流关联的ObjectOutputStream
+            oos = new ObjectOutputStream(os);
+            oos.writeObject(huffmanCodeBytes);//把赫夫曼编码后的字节数组写入压缩文件
+
+            //这里我们已对象流的方式写入 赫夫曼编码 ，是为了恢复源文件时使用
+            oos.writeObject(huffmanCodes);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (is != null) {
+                    is.close();
+                }
+                if (oos != null) {
+                    oos.close();
+                }
+                if (os != null) {
+                    os.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * 编写压缩文件解压的方法
+     * @param zipFile 压缩文件
+     * @param dstFile 解压后的文件
+     */
+    public static void unZipFile(String zipFile,String dstFile){
+        //定义文件输入流
+        InputStream is = null;
+        //定义一个对象输入流
+        ObjectInputStream ois = null;
+        //定义文件输出流
+        OutputStream os = null;
+        try{
+            //创建文件输入流
+            is = new FileInputStream(zipFile);
+            //创建一个和is关联的对象输入流
+            ois = new ObjectInputStream(is);
+            //读取byte数组
+            byte[] huffmanBytes = (byte[]) ois.readObject();
+            //读取赫夫曼编码表
+            Map<Byte,String> codes = (Map<Byte, String>) ois.readObject();
+
+            //解码
+            // System.out.println(huffmanCodes.toString());
+            byte[] bytes = decode(codes,huffmanBytes);
+            //将bytes写入到目标文件
+            os = new FileOutputStream(dstFile);
+            //写数据到输出流
+            os.write(bytes);
+        }catch (IOException | ClassNotFoundException e){
+            e.printStackTrace();
+        }finally {
+            try {
+                if (os != null) {
+                    os.close();
+                }
+                if (ois != null) {
+                    ois.close();
+                }
+                if (is != null) {
+                    is.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 
     /**
      *
@@ -52,6 +156,7 @@ public class HuffmanCode {
         //把赫夫曼编码表进行调换，因为反向查询 a->100 100 -> a
         Map<String, Byte> map = new HashMap<>();
         for (Map.Entry<Byte, String> entry : huffmanCodes.entrySet()){
+            // System.out.println(entry.getValue()+"===="+entry.getKey());
             map.put(entry.getValue(),entry.getKey());
         }
 
@@ -97,14 +202,16 @@ public class HuffmanCode {
      * @return b的二进制字符串 按补码返回
      */
     public static String byteToBitString(boolean flag,byte b){
+        //因为byte没有toString方法需要转为int
         int temp = b;
-        // 若是正数得补高位
+        // 若是byte为正数得补高位
         if (flag){
             temp |= 256;//按位或 1 0000 0000 | 0000 0001 = 1 0000 0001
         }
-        //得到temp的二进制补码
+        //得到temp的二进制补码 32位（int）
         String str = Integer.toBinaryString(temp);
         if (flag){
+            // 取低八位
             return str.substring(str.length() - 8);
         }else {
             return str;
@@ -113,9 +220,9 @@ public class HuffmanCode {
     }
 
     //封装
-    public static byte[] createHuffmanCodeBytes(String str){
-        byte[] contentBytes = str.getBytes();
-        System.out.println(new String(contentBytes));
+    public static byte[] createHuffmanCodeBytes(byte[] contentBytes){
+        // byte[] contentBytes = str.getBytes();
+        // System.out.println(new String(contentBytes));
         System.out.println(contentBytes.length);
         List<Node> nodes = getNodes(contentBytes);
         // System.out.println(nodes);
@@ -163,12 +270,15 @@ public class HuffmanCode {
             //最后不够八位
             if (i+8 > stringBuilder.length()){
                 strByte = stringBuilder.substring(i);
+                //把 最后的位数存放在huffmanBytes的最后一位
+                // huffmanCodeBytes[len] = (byte) strByte.length();
             }else {
+                //每八位截取，得到一个String 含头不含尾
                 strByte = stringBuilder.substring(i,i+8);
             }
             //将strByte转成byte，放入到huffmanCodeBytes
-            huffmanCodeBytes[index] = (byte) Integer.parseInt(strByte,2);
-            index++;
+            huffmanCodeBytes[index++] = (byte) Integer.parseInt(strByte,2);
+            // index++;
         }
         return huffmanCodeBytes;
     }
