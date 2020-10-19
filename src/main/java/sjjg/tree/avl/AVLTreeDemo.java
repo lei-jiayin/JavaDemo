@@ -9,8 +9,10 @@ package sjjg.tree.avl;
 public class AVLTreeDemo {
 
     public static void main(String[] args) {
-        int[] arr = {4,3,6,5,7,8};
+        // int[] arr = {10,12,8,9,7,6};
+        // int[] arr = {4,3,6,5,7,8};
 
+        int[] arr = {10,11,7,6,8,9};
         AVLTree avlTree = new AVLTree();
         for (int i:arr) {
             avlTree.add(new Node(i));
@@ -18,10 +20,12 @@ public class AVLTreeDemo {
         System.out.println("中序遍历");
         avlTree.infixOrder();
 
-        System.out.println("在没有做平衡处理前");
+        System.out.println("在做平衡处理后");
         System.out.println("树的高度="+avlTree.getRoot().heigth());
         System.out.println("树的左子树高度="+avlTree.getRoot().leftHeight());
         System.out.println("树的右子树高度="+avlTree.getRoot().rightHeight());
+        System.out.println("当前的根节点的值为：" + avlTree.getRoot().value);
+        avlTree.infixOrder();
     }
 }
 
@@ -207,6 +211,24 @@ class Node {
 
     }
 
+    /**
+     * 右旋转
+     */
+    private void rightRotate(){
+        //创建新的节点值为当前节点的值
+        Node newNode = new Node(value);
+        //新节点的右子节点设置为当前节点的右子节点
+        newNode.right = right;
+        //新节点的左子节点设置为当前节点的左子节点的右子节点
+        newNode.left = left.right;
+        //当前节点的值设置为当前节点的左子节点的值
+        value = left.value;
+        //设置当前节点的左子节点为当前节点的左子节点的左子节点
+        left = left.left;
+        //当前节点的右子节点指向新节点
+        right = newNode;
+    }
+
 
     @Override
     public String toString() {
@@ -288,10 +310,26 @@ class Node {
         }
         //当添加完一个节点后，如果右子树的高度-左子树的高度 > 1，左旋转
         if (rightHeight() - leftHeight() > 1){
-            /*if (right != null && right.rightHeight() < right.leftHeight()){
-                //
-            }*/
+            //如果当前节点的右子树的左子树高度大于它的右子树的右子树高度
+            if (right != null && right.leftHeight() > right.rightHeight()){
+                //对当前节点的右子树进行右旋
+                right.rightRotate();
+            }
             leftRotate();
+            return;
+        }
+        //当添加完一个节点后，如果左子树的高度-右子树的高度 > 1，右旋转
+        if (leftHeight() - rightHeight() > 1){
+            //判断特殊情况：
+            //当前节点的左子树的右子树的高度大于它的左子树的左子树高度
+            if(left != null && left.rightHeight() > left.leftHeight()){
+                //先对当前节点的左子树进行左旋
+                left.leftRotate();
+                rightRotate();
+            }else {
+                //直接进行右旋
+                rightRotate();
+            }
         }
     }
 
