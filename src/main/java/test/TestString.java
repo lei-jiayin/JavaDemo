@@ -3,6 +3,7 @@ package test;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import utils.GeometryUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,6 +29,10 @@ public class TestString {
         List<List<Map<String, Object>>> jsonArray = string2listlist(s);
         System.out.println(jsonArray);
         System.out.println(jsonArray.size());
+        for (int i = 0; i < jsonArray.size(); i++){
+            String polygonString = GeometryUtils.createPolygonString(jsonArray.get(i));
+            System.out.println(polygonString);
+        }
     }
 
     public static String listToString(List<String> arr) {
