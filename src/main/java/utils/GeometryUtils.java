@@ -1,14 +1,7 @@
 package utils;
 
 import com.google.common.base.Joiner;
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.Point;
-import com.vividsolutions.jts.geom.Polygon;
-import com.vividsolutions.jts.io.ParseException;
-import com.vividsolutions.jts.io.WKTReader;
 import lombok.Data;
-import org.geotools.geometry.jts.JTSFactoryFinder;
 
 import java.util.*;
 
