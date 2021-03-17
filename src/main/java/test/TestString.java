@@ -22,7 +22,7 @@ public class TestString {
         // 截取从1到第2个逗号的位置
         String a1 = str.substring(1,str.indexOf(",",str.indexOf(",")+1));
         System.out.println(a1);*/
-        String str = "[[{&quot;lng&quot;:114.34394272873244,&quot;lat&quot;:30.551567195600565},{&quot;lng&quot;:114.34419494412191,&quot;lat&quot;:30.551567195600565},{&quot;lng&quot;:114.34419494412191,&quot;lat&quot;:30.551345133099872},{&quot;lng&quot;:114.34394272873244,&quot;lat&quot;:30.551345133099872}],[{&quot;lng&quot;:114.34398727610491,&quot;lat&quot;:30.55129151236107},{&quot;lng&quot;:114.34419365251722,&quot;lat&quot;:30.55129151236107},{&quot;lng&quot;:114.34419365251722,&quot;lat&quot;:30.551137448818537},{&quot;lng&quot;:114.34398727610491,&quot;lat&quot;:30.551137448818537}]]";
+       /* String str = "[[{&quot;lng&quot;:114.34394272873244,&quot;lat&quot;:30.551567195600565},{&quot;lng&quot;:114.34419494412191,&quot;lat&quot;:30.551567195600565},{&quot;lng&quot;:114.34419494412191,&quot;lat&quot;:30.551345133099872},{&quot;lng&quot;:114.34394272873244,&quot;lat&quot;:30.551345133099872}],[{&quot;lng&quot;:114.34398727610491,&quot;lat&quot;:30.55129151236107},{&quot;lng&quot;:114.34419365251722,&quot;lat&quot;:30.55129151236107},{&quot;lng&quot;:114.34419365251722,&quot;lat&quot;:30.551137448818537},{&quot;lng&quot;:114.34398727610491,&quot;lat&quot;:30.551137448818537}]]";
         String s = quQuot(str);
 //      s = quFirstAndLast(s);
         System.out.println(s);
@@ -32,7 +32,11 @@ public class TestString {
         for (int i = 0; i < jsonArray.size(); i++){
             String polygonString = GeometryUtils.createPolygonString(jsonArray.get(i));
             System.out.println(polygonString);
-        }
+        }*/
+        // 利用IDEA工具 截取字符串的长度为鼠标选取长度/plant-wx 选取长度为9 截取从9开始
+        // 字符串截取从1开始
+        String str = "/plant-wx/personal";
+        System.out.println(sub(str, 9, str.length()));
     }
 
     public static String listToString(List<String> arr) {
@@ -55,8 +59,9 @@ public class TestString {
 
     /**
      * 将jsonArray(jsonArray) 转换为list(list)
+     *
      * @param str json字符串
-     * @return List<List<Map<String, Object>>>
+     * @return List<List   <   Map   <   String   ,       Object>>>
      */
     public static List<List<Map<String, Object>>> string2listlist(String str) {
         List<List<Map<String, Object>>> lati = new ArrayList<>();
